@@ -1,35 +1,38 @@
-from flask import Flask, render_template, request
-from langchain import PromptTemplate, LLMChain
-from langchain.llms import GPT4All
+from flask import Flask, request
+from llama_cpp import Llama
 import os
 
 app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/process_prompt', methods=['POST'])
-def process_prompt():
-    prompt = request.form['prompt']
-    response = llm_chain.run(prompt)
-    return render_template('index.html', prompt=prompt, response=response)
+app.logger.setLevel("INFO")
 
 
+@app.route("/")
+def home():
+    return {"message": "Hello, World!"}
 
 
-PATH = os.environ.get("LLAMA_MODEL_PATH")
+@app.route("/llama", methods=["POST"])
+def generate_cta():
+    try:
+        # Check if request method is POST
+        if request.method != "POST":
+            return "Method Not Allowed", 405
 
-llm = GPT4All(model=PATH, verbose=True)
+        # Parse incoming data as binary
+        data = request.get_data()
+        text = data.decode("utf-8")
+        llm = Llama(model_path=os.environ.get("LLAMA_MODEL_PATH"))
+        response = llm(text)
+        result = {
+            "text": response,
+        }
 
-prompt = PromptTemplate(input_variables=['question'], template="""
-    Question: {question}
-    
-    Answer:
-    """)
-
-llm_chain = LLMChain(prompt=prompt, llm=llm)
+        # Respond with success message
+        return {"result": result}, 200
+    except Exception as e:
+        app.logger.error(f"Command to action error: {e}")
+        return {"error": "Internal Server Error"}, 500
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(host="::", port=3003, debug=True)
