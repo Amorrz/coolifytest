@@ -18,7 +18,7 @@ def process_prompt():
 
 
 
-PATH = '/usr/app/llama/weights'
+PATH = os.environ.get(“LLAMA_MODEL_PATH”)
 
 llm = GPT4All(model=PATH, verbose=True)
 
