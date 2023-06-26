@@ -18,7 +18,7 @@ def process_prompt():
 
 
 
-PATH = 'C:/Users/amorr/AppData/Local/nomic.ai/GPT4All/ggml-vicuna-13b-1.1-q4_2.bin'
+PATH = '/usr/app/llama/weights'
 
 llm = GPT4All(model=PATH, verbose=True)
 
