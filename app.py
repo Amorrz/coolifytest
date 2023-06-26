@@ -18,7 +18,7 @@ def process_prompt():
 
 
 
-PATH = os.environ.get(“LLAMA_MODEL_PATH”)
+PATH = os.environ.get("LLAMA_MODEL_PATH")
 
 llm = GPT4All(model=PATH, verbose=True)
 
