@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TutorAI</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-3">TutorAI</h1>
+        <form action="/process_prompt" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" name="prompt" placeholder="Enter your prompt here!" required value="{{ prompt }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% if response %}
+        <div class="mt-3">
+            <h3>Response:</h3>
+            <p>{{ response }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
