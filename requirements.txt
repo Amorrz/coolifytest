@@ -1,3 +1,2 @@
 Flask
-langchain
-gpt4all
+llama-cpp-python
